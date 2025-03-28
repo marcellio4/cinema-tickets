@@ -43,6 +43,7 @@ public class TicketServiceImplTest {
         });
 
         assertEquals("Only 25 tickets can be bought at the same time.", exception.getMessage());
+        verifyNoInteractions(ticketPaymentService, seatReservationService);
     }
 
     @Test
@@ -59,7 +60,6 @@ public class TicketServiceImplTest {
         });
 
         assertEquals("Adult ticket is required when purchase child or infant ticket.", exception.getMessage());
-
         verifyNoInteractions(ticketPaymentService, seatReservationService);
     }
 
@@ -77,7 +77,6 @@ public class TicketServiceImplTest {
         });
 
         assertEquals("Invalid account ID. Only numbers greater than zero are valid accounts.", exception.getMessage());
-
         verifyNoInteractions(ticketPaymentService, seatReservationService);
     }
 
