@@ -30,10 +30,6 @@ public class TicketServiceImpl implements TicketService {
                     "Invalid account ID. Only numbers greater than zero are valid accounts.");
         }
 
-        if (ticketTypeRequests.length > 25) {
-            throw new InvalidPurchaseException("Too many requests. Max request size is 25.");
-        }
-
         var adultTickets = getTicketTypes(Type.ADULT, ticketTypeRequests);
 
         if (adultTickets.isEmpty()) {
@@ -41,6 +37,13 @@ public class TicketServiceImpl implements TicketService {
         }
 
         var childTickets = getTicketTypes(Type.CHILD, ticketTypeRequests);
+        var infantTickets = getTicketTypes(Type.INFANT, ticketTypeRequests);
+        var totalNumberOfTickets = calculateTotalNumberOfTickets(adultTickets, childTickets, infantTickets);
+
+        if(totalNumberOfTickets > 25) {
+            throw new InvalidPurchaseException("Only 25 tickets can be bought at the same time.");
+        }
+
         var totalAmountPriceForAdults = calculateTotalAmountPrice(adultTickets);
         var totalAmountPriceForChildren = calculateTotalAmountPrice(childTickets);
         var totalTicketsForAdults = getSumNumberOfTickets(adultTickets);
@@ -75,5 +78,13 @@ public class TicketServiceImpl implements TicketService {
         return ticketTypeRequests.stream()
                 .mapToInt(ticketTypeRequest -> ticketTypeRequest.getNoOfTickets())
                 .sum();
+    }
+
+    private int calculateTotalNumberOfTickets(List<TicketTypeRequest> adultTickets, List<TicketTypeRequest> childrenTickets, List<TicketTypeRequest> infantTickets) {
+        var totalAdultsTickets = getSumNumberOfTickets(adultTickets);
+        var totalChildrenTickets = getSumNumberOfTickets(childrenTickets);
+        var totalInfantTickets = getSumNumberOfTickets(infantTickets);
+
+        return totalAdultsTickets + totalChildrenTickets + totalInfantTickets;
     }
 }

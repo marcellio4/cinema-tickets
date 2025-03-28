@@ -33,39 +33,16 @@ public class TicketServiceImplTest {
     @Test
     void shouldThrowInvalidPurchaseExceptionWhenTooManyRequests() {
         TicketTypeRequest[] requests = {
-                new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.INFANT, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
-                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
+                new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 10),
+                new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 15),
+                new TicketTypeRequest(TicketTypeRequest.Type.INFANT, 6)
         };
 
         var exception = assertThrows(InvalidPurchaseException.class, () -> {
             ticketServiceImpl.purchaseTickets(1L, requests);
         });
-        
-        assertEquals("Too many requests. Max request size is 25.", exception.getMessage());
+
+        assertEquals("Only 25 tickets can be bought at the same time.", exception.getMessage());
     }
 
     @Test
