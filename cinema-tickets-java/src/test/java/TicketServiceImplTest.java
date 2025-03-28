@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import thirdparty.paymentgateway.TicketPaymentService;
 import thirdparty.seatbooking.SeatReservationService;
 import uk.gov.dwp.uc.pairtest.TicketServiceImpl;
@@ -31,7 +32,7 @@ public class TicketServiceImplTest {
     private TicketServiceImpl ticketServiceImpl;
 
     @Test
-    void shouldThrowInvalidPurchaseExceptionWhenTooManyRequests() {
+    void shouldThrowInvalidPurchaseExceptionWhenTooManyTickets() {
         TicketTypeRequest[] requests = {
                 new TicketTypeRequest(TicketTypeRequest.Type.ADULT, 10),
                 new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 15),
@@ -47,7 +48,7 @@ public class TicketServiceImplTest {
     }
 
     @Test
-    void shouldThrowInvalidPurchaseExceptionWhenticketsAreMissingAdults() {
+    void shouldThrowInvalidPurchaseExceptionWhenTicketsAreMissingAdults() {
         TicketTypeRequest[] requests = {
                 new TicketTypeRequest(TicketTypeRequest.Type.INFANT, 1),
                 new TicketTypeRequest(TicketTypeRequest.Type.CHILD, 1),
